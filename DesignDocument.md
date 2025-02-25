@@ -12,14 +12,324 @@ Place your class diagrams below. Make sure you check the file in the browser on 
 
 Provide a class diagram for the provided code as you read through it.  For the classes you are adding, you will create them as a separate diagram, so for now, you can just point towards the interfaces for the provided code diagram.
 
+```mermaid
+---
+title: bg arena planner UML
+---
+classDiagram
+    direction LR
+    BGArenaPlanner --> Planner : uses
+    BGArenaPlanner --> GameList : uses
+    BGArenaPlanner --> ConsoleApp : uses
+    ConsoleApp --> IGameList : has a
+    ConsoleApp --> IPlanner : has a
+    ConsoleApp --> ConsoleText : has a
+    IGameList <|-- GameList : implements
+    IPlanner <|-- Planner : implements
 
+    class BGArenaPlanner {
+        - BGArenaPlanner()
+        + main(String[] args) : void
+    }
+    class BoardGame {
+        - name : String
+        - id : int
+        - minPlayers : int
+        - maxPlayers : int
+        - maxPlayTime : int
+        - minPlayTime : int
+        - difficulty : double
+        - rank : int
+        - averageRating : double
+        - yearPublished : int
+        + BoardGame(String name, int id, int minPlayers, int maxPlayers, int minPlayTime, int maxPlayTime, double difficulty, int rank, double averageRating, int yearPublished)
+        + getName() : String
+        + getId() : String
+        + getMinPlayers() : int
+        + getMaxPlayers() : int
+        + getMaxPlayTime() : int
+        + getMinPlayTime() : int
+        + getDifficulty() : double
+        + getRank() : int
+        + getYearPublished() : int
+        + toStringWithInfo(GameData col) : String
+        + toString() : String 
+        + equals(Object obj) : boolean
+        + hashCode() : int
+        + main(String[] args) : void
+    }
+    class ConsoleApp {
+        - IN : Scanner
+        - DEFAULT_FILENAME : String
+        - RND : Random
+        - current : Scanner
+        - gameList : IGameList
+        - planner : IPlanner
+        + ConsoleApp(IGameList gameList, IPlanner planner)
+        + start() : void
+        + randomNumber() : String
+        + processHelp() : void
+        + processFilter() : void
+        + printFilterStream(Stream<BoardGame> games, GameData sortON) : void
+        + processListCommands() : void
+        + nextCommand() : ConsoleText
+        + remainder() : String
+        + getInput(String format, Object... args) : String
+        + printOutput(String format, Object... output) : void
+    }
+    class ConsoleText {
+        <<enum>>
+        WELCOME
+        HELP
+        INVALID
+        GOODBYE
+        PROMPT
+        NO_FILTER
+        NO_GAMES_LIST
+        FILTERED_CLEAR
+        LIST_HELP
+        FILTER_HELP
+        INVALID_LIST
+        EASTER_EGG
+        CMD_EASTER_EGG
+        CMD_EXIT
+        CMD_HELP
+        CMD_QUESTION
+        CMD_FILTER
+        CMD_LIST
+        CMD_SHOW
+        CMD_ADD
+        CMD_REMOVE
+        CMD_CLEAR
+        CMD_SAVE
+        CMD_OPTION_ALL
+        CMD_SORT_OPTION
+        CMD_SORT_OPTION_DIRECTION_ASC
+        CMD_SORT_OPTION_DIRECTION_DESC
+        - CTEXT : Properties
+        + toString() : String
+        + fromString(String str) : ConsoleText
+    }
+    class GameData {
+        <<enum>>
+        + NAME("objectname")
+        + ID("objectid")
+        + RATING("average")
+        + DIFFICULTY("avgweight")
+        + RANK("rank")
+        + MIN_PLAYERS("minplayers")
+        + MAX_PLAYERS("maxplayers")
+        + MIN_TIME("minplaytime")
+        + MAX_TIME("maxplaytime")
+        + YEAR("yearpublished")
+        - columnName : String
+        + GameData(String columnName)
+        + getColumnName() : String
+        + fromColumnName(String columnName) : GameData
+        + fromString(String name) : GameData
+    }
+    class GameList {
+        + GameList()
+        + getGameNames() : List<String>
+        + clear() : void 
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class GamesLoader {
+        - DELIMITER : String
+        - GamesLoader()
+        + loadGamesFile(String filename) : Set<BoardGame>
+        - toBoardGame(String line, Map<GameData, Integer> columnMap) : BoardGame
+        - processHeader(String header) : Map<GameData, Integer>
+    }    
+    class IGameList {
+        <<interface>>
+        + ADD_ALL : String
+        + getGameNames() : List<String>
+        + clear() : void
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class IPlanner {
+        <<interface>>
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+    }    
+    class Operations {
+        <<enum>>
+        + EQUALS("==")
+        + NOT_EQUALS("!=")
+        + GREATER_THAN(">")
+        + LESS_THAN("<")
+        + GREATER_THAN_EQUALS(">=")
+        + LESS_THAN_EQUALS("<=")
+        + CONTAINS("~=")
+        + Operations(String operator)
+        + getOperator() : String
+        + fromOperator(String operator) : Operations
+        + getOperatorFromStr(String str) : Operations
+    }
+    class Planner {
+        + Planner(Set<BoardGame> games)
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame> 
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+    }    
+
+```
 
 ### Your Plans/Design
 
 Create a class diagram for the classes you plan to create. This is your initial design, and it is okay if it changes. Your starting points are the interfaces. 
 
+```mermaid
+---
+title: bg arena planner UML
+---
+classDiagram
+    direction LR
+    IGameList <|-- GameList : implements
+    IPlanner <|-- Planner : implements
+    Planner --> BoardGame : uses
+    GameList --> BoardGame : uses
+    GameList --> GameData : uses  
+    Planner --> Filter : uses
+    Planner --> Sorting : uses    
+    Sorting --> GameData : uses  
+    Filter --> Operations : uses   
+    Filter --> BoardGame : has a           
 
-
+    class IGameList {
+        <<interface>>
+        + ADD_ALL : String
+        + getGameNames() : List<String>
+        + clear() : void
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class IPlanner {
+        <<interface>>
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+    }    
+    class Planner {
+        + Planner(Set<BoardGame> games)
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame> 
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+    }        
+    class GameList {
+        + GameList()
+        + getGameNames() : List<String>
+        + clear() : void 
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class BoardGame {
+        - name : String
+        - id : int
+        - minPlayers : int
+        - maxPlayers : int
+        - maxPlayTime : int
+        - minPlayTime : int
+        - difficulty : double
+        - rank : int
+        - averageRating : double
+        - yearPublished : int
+        + BoardGame(String name, int id, int minPlayers, int maxPlayers, int minPlayTime, int maxPlayTime, double difficulty, int rank, double averageRating, int yearPublished)
+        + getName() : String
+        + getId() : String
+        + getMinPlayers() : int
+        + getMaxPlayers() : int
+        + getMaxPlayTime() : int
+        + getMinPlayTime() : int
+        + getDifficulty() : double
+        + getRank() : int
+        + getYearPublished() : int
+        + toStringWithInfo(GameData col) : String
+        + toString() : String 
+        + equals(Object obj) : boolean
+        + hashCode() : int
+        + main(String[] args) : void
+    }    
+    class GameData {
+        <<enum>>
+        + NAME("objectname")
+        + ID("objectid")
+        + RATING("average")
+        + DIFFICULTY("avgweight")
+        + RANK("rank")
+        + MIN_PLAYERS("minplayers")
+        + MAX_PLAYERS("maxplayers")
+        + MIN_TIME("minplaytime")
+        + MAX_TIME("maxplaytime")
+        + YEAR("yearpublished")
+        - columnName : String
+        + GameData(String columnName)
+        + getColumnName() : String
+        + fromColumnName(String columnName) : GameData
+        + fromString(String name) : GameData
+    }
+    class Operations {
+        <<enum>>
+        + EQUALS("==")
+        + NOT_EQUALS("!=")
+        + GREATER_THAN(">")
+        + LESS_THAN("<")
+        + GREATER_THAN_EQUALS(">=")
+        + LESS_THAN_EQUALS("<=")
+        + CONTAINS("~=")
+        + Operations(String operator)
+        + getOperator() : String
+        + fromOperator(String operator) : Operations
+        + getOperatorFromStr(String str) : Operations
+    }    
+    class Filter {
+        - operation : Operations
+        - boardGame : BoardGame
+        + Filter(Operations operation, BoardGame boardGame)
+        + nameFilter() : BoardGame
+        + maxPlayersFilter() : BoardGame
+        + minPlayersFilter() : BoardGame
+        + minPlaytimeFilter() : BoardGame
+        + maxPlaytimeFilter() : BoardGame
+        + rankFilter() : BoardGame
+        + ratingFilter() : BoardGame
+        + difficultyFilter() : BoardGame
+        + yearFilter() : BoardGame  
+    }        
+    class Sorting {
+        - sortOn : GameData
+        - filteredBoardGames : Set<BoardGame>
+        - sorting : boolean
+        + Sorting(GameData sortOn, Set<BoardGame> boardGame)        
+        + Sorting(GameData sortOn, Set<BoardGame> boardGame, boolean sorting)
+        + nameFilter() : Set<BoardGame>
+        + maxPlayersSortOn() : Set<BoardGame>
+        + minPlayersSortOn() : Set<BoardGame>
+        + minPlaytimeSortOn() : Set<BoardGame>
+        + maxPlaytimeSortOn() : Set<BoardGame>
+        + rankSortOn() : Set<BoardGame>
+        + ratingSortOn() : Set<BoardGame>
+        + difficultySortOn() : Set<BoardGame>
+        + yearSortOn() : Set<BoardGame>  
+        + idSortOn() : Set<BoardGame>          
+    }
+```
 
 
 ## (INITIAL DESIGN): Tests to Write - Brainstorm
@@ -36,10 +346,13 @@ Write a test (in english) that you can picture for the class diagram you have cr
 
 You should feel free to number your brainstorm. 
 
-1. Test 1..
-2. Test 2..
-
-
+1. Test getters and setters in BoardGame
+2. Test different filter scenarios using Filter
+3. Test all the methods in GameList
+4. Test all the toString and fromString methods in Operations, GameData and ConsoleText
+5. Test different sorting scenarios using Sorting
+6. Test scenarios when filter methods in Planner receive different inputs
+7. Test scenarios when start() method in ConsoleApp receive different CMD
 
 
 ## (FINAL DESIGN): Class Diagram
