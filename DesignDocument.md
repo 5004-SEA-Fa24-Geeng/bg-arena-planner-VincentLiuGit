@@ -314,20 +314,20 @@ classDiagram
     }        
     class Sorting {
         - sortOn : GameData
-        - filteredBoardGames : Set<BoardGame>
+        - filteredBoardGames : Stream<BoardGame>
         - sorting : boolean
-        + Sorting(GameData sortOn, Set<BoardGame> boardGame)        
-        + Sorting(GameData sortOn, Set<BoardGame> boardGame, boolean sorting)
-        + nameFilter() : Set<BoardGame>
-        + maxPlayersSortOn() : Set<BoardGame>
-        + minPlayersSortOn() : Set<BoardGame>
-        + minPlaytimeSortOn() : Set<BoardGame>
-        + maxPlaytimeSortOn() : Set<BoardGame>
-        + rankSortOn() : Set<BoardGame>
-        + ratingSortOn() : Set<BoardGame>
-        + difficultySortOn() : Set<BoardGame>
-        + yearSortOn() : Set<BoardGame>  
-        + idSortOn() : Set<BoardGame>          
+        + Sorting(GameData sortOn, Stream<BoardGame> filteredBoardGames)        
+        + Sorting(GameData sortOn, Stream<BoardGame> filteredBoardGames, boolean sorting)
+        + nameFilter() : Stream<BoardGame>
+        + maxPlayersSortOn() : Stream<BoardGame>
+        + minPlayersSortOn() : Stream<BoardGame>
+        + minPlaytimeSortOn() : Stream<BoardGame>
+        + maxPlaytimeSortOn() : Stream<BoardGame>
+        + rankSortOn() : Stream<BoardGame>
+        + ratingSortOn() : Stream<BoardGame>
+        + difficultySortOn() : Stream<BoardGame>
+        + yearSortOn() : Stream<BoardGame>  
+        + idSortOn() : Stream<BoardGame>          
     }
 ```
 
