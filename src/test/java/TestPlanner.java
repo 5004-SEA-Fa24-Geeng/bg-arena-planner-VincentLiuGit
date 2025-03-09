@@ -2,9 +2,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import student.BoardGame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
+
 import student.Planner;
 import student.IPlanner;
 import student.GameData;
@@ -17,8 +21,12 @@ import student.GameData;
  * setup to help out. 
  */
 public class TestPlanner {
+
     static Set<BoardGame> games;
 
+    /**
+     * Executed before all tests in the current test class.
+     */
     @BeforeAll
     public static void setup() {
         games = new HashSet<>();
@@ -32,13 +40,81 @@ public class TestPlanner {
         games.add(new BoardGame("Tucano", 5, 10, 20, 60, 90, 6.0, 500, 8.0, 2004));
     }
 
-     @Test
-    public void testFilterName() {
+    /**
+     * Test to make sure filterSingle() return the expected stream.
+     */
+    @Test
+    public void testFilterSingleName() {
         IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("name == Go").toList();
+        List<BoardGame> filtered = planner.filter("name ~= 17").toList();
         assertEquals(1, filtered.size());
-        assertEquals("Go", filtered.get(0).getName());
+        assertEquals("17 days", filtered.get(0).getName());
     }
+
+    /**
+     *  Test to make sure filterMulti() return the expected stream.
+     */
+    @Test
+    public void testFilterMultiNameMinPlayers() {
+        IPlanner planner = new Planner(games);
+        List<BoardGame> filtered = planner.filter("name ~= Go, minPlayers >= 2, maxPlayers == 5").toList();
+        assertEquals(1, filtered.size()); 
+        assertEquals("Go", filtered.getFirst().getName()); 
+    }    
+
+    /**
+     *  Test to make sure filterMulti() return the expected stream
+     *  with an asc order if we did not specified the order.
+     */    
+    @Test
+    public void testFilterMultiNameMinPlayersCheckAscOrder() {
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("name ~= o, minPlayers >= 1");
+        List<String> filteredListName = filtered.map(game -> game.getName()).toList();
+        List<String> expectedList = Arrays.asList("Go", "Go Fish", "golang", "GoRami", "Monopoly", "Tucano");
+        assertEquals(6, filteredListName.size()); 
+        assertEquals(expectedList, filteredListName);        
+    }       
     
+    /**
+     *  Test to make sure filterMulti() return the expected stream with an asc order if we did not specified the order
+     *  and the expected stream also was sorted on GameData.RATING.
+     */      
+    @Test
+    public void testFilterMultiNameMinPlayersSortOnRatingCheckAscOrder() {
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("name ~= o, minPlayers >= 1", GameData.RATING);
+        List<String> filteredListName = filtered.map(game -> game.getName()).toList();
+        List<String> expectedList = Arrays.asList("Monopoly", "Go Fish", "Go", "Tucano", "GoRami", "golang");
+        assertEquals(6, filteredListName.size()); 
+        assertEquals(expectedList, filteredListName);        
+    }   
+    
+    /**
+     *  Test to make sure filterMulti() return the expected stream with an desc order if we did specified the order
+     *  and the expected stream also was sorted on GameData.DIFFICULTY.
+     */     
+    @Test
+    public void testFilterMultiDifficultySortOnDifficultyCheckDescOrder() {
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("difficulty != 3, year >= 2001", GameData.DIFFICULTY, false);
+        List<String> filteredListName = filtered.map(game -> game.getName()).toList();
+        List<String> expectedList = Arrays.asList("Chess", "17 days", "golang", "Tucano", "GoRami", "Monopoly");
+        assertEquals(6, filteredListName.size()); 
+        assertEquals(expectedList, filteredListName);        
+    }    
+
+    /**
+     *  Test to make sure reset() reset games in Planner to the defalut games provided in collection.csv.
+     */      
+    @Test
+    public void testReset() {
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("difficulty != 3, year >= 2001", GameData.DIFFICULTY, false);
+        assertEquals(6, filtered.count());         
+        planner.reset();
+        Stream<BoardGame> clearFiltered = planner.filter("");
+        assertEquals(753, clearFiltered.count()); 
+    }     
 
 }
