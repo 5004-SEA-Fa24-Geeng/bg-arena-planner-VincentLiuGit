@@ -50,7 +50,7 @@ public class GameList implements IGameList {
 
     @Override
     public void clear() {
-        this.gameList = new HashSet<BoardGame>();
+        this.gameList.clear();
     }
 
     @Override
@@ -71,16 +71,9 @@ public class GameList implements IGameList {
     @Override
     public void addToList(String str, Stream<BoardGame> filtered) throws IllegalArgumentException {
         
-        if (!str.contains("list add")) {
-            throw new IllegalArgumentException("Invalid string!");
-        }
-
         Set<BoardGame> newList = new HashSet<>();        
         List<BoardGame> filteredList = filtered.toList();
-        // get the second part after the str is splited using " add "
-        // and right trim space
-        // "list add 7 wonders " -> "list", "7 wonders " -> "7 wonders"
-        str = str.split(" add ")[1].replaceAll("\\s+$", "");
+        str = str.trim();
         // add range
         // "1-3"
         if (str.contains("-")) {
@@ -134,10 +127,7 @@ public class GameList implements IGameList {
         }
         // cast gameList to list
         List<BoardGame> newGameList = new ArrayList<>(this.gameList);
-        // get the second part after the str is splited using " add "
-        // and right trim space
-        // "list remove 7 wonders " -> "list", "7 wonders " -> "7 wonders"
-        str = str.split(" remove ")[1].replaceAll("\\s+$", "");
+        str = str.trim();
         // add range
         // "1-3"
         if (str.contains("-")) {
@@ -182,22 +172,4 @@ public class GameList implements IGameList {
             }
         }        
     }
-    
-    public static void main(String[] args) { // used for local quick tests
-        Set<BoardGame> games = new HashSet<>();
-        IGameList gameList = new GameList();
-        games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
-        games.add(new BoardGame("Go Fish", 2, 2, 10, 20, 120, 3.0, 200, 6.5, 2001));
-        games.add(new BoardGame("golang", 4, 2, 7, 50, 55, 7.0, 400, 9.5, 2003));
-        games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
-
-
-        IPlanner planner = new Planner(games);
-        Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add all ", filtered);
-        
-        for (String game : gameList.getGameNames()) {
-            System.out.println(game);
-        }
-    }   
 }

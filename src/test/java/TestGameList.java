@@ -44,7 +44,7 @@ public class TestGameList {
     public void testGetGameNames() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("name ~= 17");
-        gameList.addToList("list add all ", filtered);
+        gameList.addToList("all ", filtered);
         List<String> expectedList = Arrays.asList("17 days");
         assertEquals(1, gameList.count());
         assertEquals(expectedList, gameList.getGameNames());
@@ -54,7 +54,7 @@ public class TestGameList {
     public void testAddToList1Num() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add 1 ", filtered);
+        gameList.addToList(" 1 ", filtered);
         List<String> expectedList = Arrays.asList("Go Fish");
         assertEquals(1, gameList.count());
         assertEquals(expectedList, gameList.getGameNames());
@@ -64,7 +64,7 @@ public class TestGameList {
     public void testAddToListNumberGreaterThanFilterStreamCount() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add 2-5 ", filtered);
+        gameList.addToList("2-5 ", filtered);
         List<String> expectedList = Arrays.asList("17 days", "Go Fish", "golang");
         assertEquals(3, gameList.count());
     }
@@ -73,7 +73,7 @@ public class TestGameList {
     public void testAddToListNumberEvenFilterStreamCount() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add 2-2 ", filtered);
+        gameList.addToList("2-2 ", filtered);
         List<String> expectedList = Arrays.asList("Go Fish");
         assertEquals(1, gameList.count());
         assertEquals(expectedList, gameList.getGameNames());
@@ -83,8 +83,8 @@ public class TestGameList {
     public void testRemoveFromListNumberGreaterThanList() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add all ", filtered);
-        gameList.removeFromList("list remove 1-6 ");
+        gameList.addToList("all ", filtered);
+        gameList.removeFromList(" 1-6 ");
         assertEquals(0, gameList.count());
     }    
     
@@ -92,8 +92,8 @@ public class TestGameList {
     public void testRemoveFromListNumberEvenFilterStreamCount() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add 2-6 ", filtered);
-        gameList.removeFromList("list remove 3-3 ");
+        gameList.addToList("2-6 ", filtered);
+        gameList.removeFromList(" 3-3 ");
         assertEquals(2, gameList.count());
     }      
 
@@ -101,8 +101,8 @@ public class TestGameList {
     public void testRemoveFromListRemoveAll() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("list add 2-6 ", filtered);
-        gameList.removeFromList("list remove all ");
+        gameList.addToList("2-6 ", filtered);
+        gameList.removeFromList(" all ");
         assertEquals(0, gameList.count());
     }     
 
