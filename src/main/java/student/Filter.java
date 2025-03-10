@@ -16,8 +16,7 @@ public final class Filter {
      * @param value the value used to compare with the value of a board game
      * @return boolean, true if the game fits the filter, else false
      */
-    public static boolean filter(BoardGame game, GameData column
-                                , Operations op, String value) {
+    public static boolean filter(BoardGame game, GameData column, Operations op, String value) {
 
         switch (column) {
             case NAME:
