@@ -80,7 +80,7 @@ public class Planner implements IPlanner {
      * processes string with one filter.
      * @param filter string contains one filter
      * @param filteredGames a stream of games that user send in
-     * @return
+     * @return Stream<BoardGame> a stream of games that is filtered
      */
     private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filteredGames) {
         Operations operator = Operations.getOperatorFromStr(filter);
