@@ -61,6 +61,16 @@ public class TestGameList {
     }    
 
     @Test
+    public void testAddToListNumAndStringNum() {
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("");
+        gameList.addToList(" 17 days ", filtered);
+        List<String> expectedList = Arrays.asList("17 days");
+        assertEquals(1, gameList.count());
+        assertEquals(expectedList, gameList.getGameNames());
+    }        
+
+    @Test
     public void testAddToListNumberGreaterThanFilterStreamCount() {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");

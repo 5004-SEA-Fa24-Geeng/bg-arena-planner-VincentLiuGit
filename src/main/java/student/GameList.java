@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import student.Sorts.SortByName;
 
 public class GameList implements IGameList {
 
@@ -71,12 +70,16 @@ public class GameList implements IGameList {
     @Override
     public void addToList(String str, Stream<BoardGame> filtered) throws IllegalArgumentException {
         
+        if (str == null) {
+            throw new IllegalArgumentException("Invalid range number!");
+        }        
+
         Set<BoardGame> newList = new HashSet<>();        
-        List<BoardGame> filteredList = filtered.toList();
         str = str.trim();
         // add range
         // "1-3"
         if (str.contains("-")) {
+            List<BoardGame> filteredList = filtered.toList();
             String[] rangeNum = str.split("-");
             // turns num into index
             // index starts from 0
@@ -96,12 +99,14 @@ public class GameList implements IGameList {
         } 
         // add all 
         else if (str.contains(ADD_ALL)) {
+            List<BoardGame> filteredList = filtered.toList();
             newList = filteredList.stream().collect(Collectors.toSet());
         }
         // add single name or single number 
         else {
             // single number 
             if (str.matches("[0-9]+")) {
+                List<BoardGame> filteredList = filtered.toList();
                 int index = Integer.parseInt(str);
                 newList.add(filteredList.get(index));
             } 
@@ -172,4 +177,22 @@ public class GameList implements IGameList {
             }
         }        
     }
+
+    public static void main(String[] args) { // used for local quick tests
+        Set<BoardGame> games = new HashSet<>();
+        IGameList gameList = new GameList();
+        games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
+        games.add(new BoardGame("Go Fish", 2, 2, 10, 20, 120, 3.0, 200, 6.5, 2001));
+        games.add(new BoardGame("golang", 4, 2, 7, 50, 55, 7.0, 400, 9.5, 2003));
+        games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
+
+
+        IPlanner planner = new Planner(games);
+        Stream<BoardGame> filtered = planner.filter("");
+        gameList.addToList("17 days ", filtered);
+
+        for (String game : gameList.getGameNames()) {
+            System.out.println(game);
+        }
+    }      
 }
