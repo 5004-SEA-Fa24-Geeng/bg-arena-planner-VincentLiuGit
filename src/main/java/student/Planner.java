@@ -9,17 +9,17 @@ import java.util.stream.Stream;
 public class Planner implements IPlanner {
     
     /**
-     * The file name that we used for reset().
-     */
-    private static final String DEFAULT_COLLECTION = "/collection.csv";
-    /**
      * If no sort is given, use objectname as a default.
      */
     private static final String DEFAULT_SORT_ON_NAME = "objectname";
     /**
-     * A set of BoardGame.
+     * A set of BoardGame that user sent in.
      */
     Set<BoardGame> games;
+    /**
+     * A copy set of BoardGame that user sent in.
+     */
+    Set<BoardGame> copiedGames;
 
     /**
      * Create a Planner object.
@@ -27,6 +27,7 @@ public class Planner implements IPlanner {
      */
     public Planner(Set<BoardGame> games) {
         this.games = games;
+        this.copiedGames = games;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class Planner implements IPlanner {
 
     @Override
     public void reset() {
-        this.games = GamesLoader.loadGamesFile(DEFAULT_COLLECTION);
+        this.games = this.copiedGames;
     }
 
     /**
