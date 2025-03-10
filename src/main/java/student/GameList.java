@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +16,7 @@ public class GameList implements IGameList {
     /**
      * Default key word to use to add or remove an entire filter from/to the list.
      */
-    private String ADD_ALL = "all";
+    private static final String ADD_ALL = "all";
     /**
      * a set to store board games.
      */
@@ -42,7 +40,7 @@ public class GameList implements IGameList {
                 gameNames.add(game.getName());
             }
             List<String> uniqueGameNames = gameNames.stream().distinct()
-                                        .sorted((o1,o2) -> o1.compareToIgnoreCase(o2)).toList();
+                                        .sorted((o1, o2) -> o1.compareToIgnoreCase(o2)).toList();
             return uniqueGameNames;
         }
     }
@@ -128,7 +126,7 @@ public class GameList implements IGameList {
         
         // List is empty then do nothing
         if (this.gameList.isEmpty()) {
-            return ;
+            return;
         }
         // cast gameList to list
         List<BoardGame> newGameList = new ArrayList<>(this.gameList);
@@ -152,7 +150,7 @@ public class GameList implements IGameList {
                 newGameList.subList(firstNum, secondNum + 1).clear();
                 // cast newGameList to set and be sorted in ascending alphabetical order
                 this.gameList = newGameList.stream()
-                                .sorted((o1,o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
+                                .sorted((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
                                 .collect(Collectors.toSet());
             }
         } 
@@ -167,7 +165,7 @@ public class GameList implements IGameList {
                 int index = Integer.parseInt(str);
                 newGameList.remove(index);
                 this.gameList = newGameList.stream()
-                                .sorted((o1,o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
+                                .sorted((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
                                 .collect(Collectors.toSet());
             } 
             // single name
@@ -176,23 +174,5 @@ public class GameList implements IGameList {
                 this.gameList.removeIf(game -> game.getName().contains(name));
             }
         }        
-    }
-
-    public static void main(String[] args) { // used for local quick tests
-        Set<BoardGame> games = new HashSet<>();
-        IGameList gameList = new GameList();
-        games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
-        games.add(new BoardGame("Go Fish", 2, 2, 10, 20, 120, 3.0, 200, 6.5, 2001));
-        games.add(new BoardGame("golang", 4, 2, 7, 50, 55, 7.0, 400, 9.5, 2003));
-        games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
-
-
-        IPlanner planner = new Planner(games);
-        Stream<BoardGame> filtered = planner.filter("");
-        gameList.addToList("17 days ", filtered);
-
-        for (String game : gameList.getGameNames()) {
-            System.out.println(game);
-        }
     }      
 }
