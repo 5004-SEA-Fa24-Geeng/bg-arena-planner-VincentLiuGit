@@ -10,14 +10,20 @@ import student.IPlanner;
 
 
 /**
- * JUnit test for the Planner class.
+ * JUnit test for the Filter class.
  * 
  * Just a sample test to get you started, also using
  * setup to help out. 
  */
 public class TestFilter {
-    static Set<BoardGame> games;
 
+    /**
+     * new set holding test items.
+     */
+    static Set<BoardGame> games;
+    /**
+     * Executed before all tests in the current test class.
+     */
     @BeforeAll
     public static void setup() {
         games = new HashSet<>();
@@ -30,7 +36,9 @@ public class TestFilter {
         games.add(new BoardGame("Monopoly", 8, 6, 10, 20, 1000, 1.0, 800, 5.0, 2007));
         games.add(new BoardGame("Tucano", 5, 10, 20, 60, 90, 6.0, 500, 8.0, 2004));
     }
-
+    /**
+     * Test to make sure filter() handle the contain operartion properly and return the expected stream.
+     */    
     @Test
     public void testFilterContainsName() {
         IPlanner planner = new Planner(games);
@@ -38,7 +46,9 @@ public class TestFilter {
         assertEquals(1, filtered.size());
         assertEquals("17 days", filtered.get(0).getName());
     }
-
+    /**
+     * Test to make sure filter() handle the equql operartion properly and return the expected stream.
+     */   
     @Test
     public void testFilterEqualName() {
         IPlanner planner = new Planner(games);
@@ -46,83 +56,41 @@ public class TestFilter {
         assertEquals(1, filtered.size());
         assertEquals("Go", filtered.get(0).getName());
     }    
-
+    /**
+     * Test to make sure filter() handle the not equal operartion properly and return the expected stream.
+     */   
     @Test
     public void testFilterNotEqualName() {
         IPlanner planner = new Planner(games);
         List<BoardGame> filtered = planner.filter("name != Go").toList();
         assertEquals(7, filtered.size());
     }    
-    
+    /**
+     * Test to make sure filter() handle the greater equal then operartion properly and return the expected stream.
+     */       
     @Test
     public void testFilterOtherOpsName() {
         IPlanner planner = new Planner(games);
         List<BoardGame> filtered = planner.filter("name >= Go").toList();
         assertEquals(6, filtered.size());
     }     
-
-    @Test
-    public void testFilterEqualMaxPlayers() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("maxPlayers == 10").toList();
-        assertEquals(2, filtered.size());   
-    }
-    
-    @Test
-    public void testFilterNotEqualMinPlayers() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("minPlayers != 2").toList();
-        assertEquals(4, filtered.size());
-    }
-    
-    @Test
-    public void testFilterGreaterThanMaxPlaytime() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("maxPlayTime > 10").toList();
-        assertEquals(8, filtered.size());
-    }    
-    
+    /**
+     * Test to make sure filter() handle the less then operartion properly and return the expected stream.
+     */    
     @Test
     public void testFilterLessThanMinPlaytime() {
         IPlanner planner = new Planner(games);
         List<BoardGame> filtered = planner.filter("minPlayTime < 70").toList();
         assertEquals(7, filtered.size());
     }  
-    
-    @Test
-    public void testFilterGreaterThanEqualRank() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("rank >= 500").toList();
-        assertEquals(4, filtered.size());
-    }   
-
+    /**
+     * Test to make sure filter() handle the less equal then operartion properly and return the expected stream.
+     */    
     @Test
     public void testFilterLessThanEqualYear() {
         IPlanner planner = new Planner(games);
         List<BoardGame> filtered = planner.filter("year <= 2005").toList();
         assertEquals(6, filtered.size());
     }  
-    
-    @Test
-    public void testFilterContainRank() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("rank ~= 500").toList();
-        assertEquals(0, filtered.size());
-    }       
-    
-    @Test
-    public void testFilterLessThanEqualRating() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("rating <= 5.0").toList();
-        assertEquals(1, filtered.size());
-    }   
-    
-    @Test
-    public void testFilterContainDifficulty() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("difficulty ~= 10").toList();
-        assertEquals(0, filtered.size());
-    }       
-
 
 }

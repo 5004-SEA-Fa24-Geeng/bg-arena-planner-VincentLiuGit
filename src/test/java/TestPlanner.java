@@ -22,6 +22,9 @@ import student.GameData;
  */
 public class TestPlanner {
 
+    /**
+     * new set holding test items.
+     */
     static Set<BoardGame> games;
 
     /**
@@ -114,7 +117,7 @@ public class TestPlanner {
         assertEquals(6, filtered.count());         
         planner.reset();
         Stream<BoardGame> clearFiltered = planner.filter("");
-        assertEquals(753, clearFiltered.count()); 
+        assertEquals(8, clearFiltered.count()); 
     }     
 
 }
