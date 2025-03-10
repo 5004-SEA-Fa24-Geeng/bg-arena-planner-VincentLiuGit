@@ -94,22 +94,19 @@ public class GameList implements IGameList {
                     newList.add(filteredList.get(i));
                 }
             }
-        } 
-        // add all 
-        else if (str.contains(ADD_ALL)) {
+        // add all     
+        } else if (str.contains(ADD_ALL)) {
             List<BoardGame> filteredList = filtered.toList();
             newList = filteredList.stream().collect(Collectors.toSet());
-        }
-        // add single name or single number 
-        else {
+        // add single name or single number             
+        } else {
             // single number 
             if (str.matches("[0-9]+")) {
                 List<BoardGame> filteredList = filtered.toList();
                 int index = Integer.parseInt(str);
                 newList.add(filteredList.get(index));
-            } 
-            // single name
-            else {
+            // single name                
+            } else {
                 String name = str;
                 newList = filtered.filter(game -> game.getName().contains(name)).collect(Collectors.toSet());
             }
@@ -153,13 +150,11 @@ public class GameList implements IGameList {
                                 .sorted((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
                                 .collect(Collectors.toSet());
             }
-        } 
         // remove all 
-        else if (str.contains(ADD_ALL)) {
+        } else if (str.contains(ADD_ALL)) {
             this.clear();
-        }
-        // remove single name or single number 
-        else {
+        // remove single name or single number             
+        } else {
             // single number 
             if (str.matches("[0-9]+")) {
                 int index = Integer.parseInt(str);
@@ -167,9 +162,8 @@ public class GameList implements IGameList {
                 this.gameList = newGameList.stream()
                                 .sorted((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
                                 .collect(Collectors.toSet());
-            } 
-            // single name
-            else {
+            // single name                                
+            } else {
                 String name = str;
                 this.gameList.removeIf(game -> game.getName().contains(name));
             }
