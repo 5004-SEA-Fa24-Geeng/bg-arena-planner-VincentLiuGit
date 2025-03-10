@@ -69,6 +69,9 @@ public class Filter {
      */
     public static boolean filterString(String gameData, Operations op, String value) {
 
+        gameData = gameData.toLowerCase();
+        value = value.toLowerCase();        
+
         switch (op) {
             case EQUALS:
                 return gameData.equals(value);
