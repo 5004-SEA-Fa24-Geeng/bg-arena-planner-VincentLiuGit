@@ -70,7 +70,7 @@ public class GameList implements IGameList {
 
     @Override
     public void addToList(String str, Stream<BoardGame> filtered) throws IllegalArgumentException {
-
+        System.out.println(str);
         Set<BoardGame> newList = new HashSet<>();        
         List<BoardGame> filteredList = filtered.toList();
         // get the second part after the str is splited using " add "
@@ -89,7 +89,7 @@ public class GameList implements IGameList {
             // the index fo the last element is size - 1;
             int streamCount = filteredList.size() - 1;
             secondNum = (secondNum > streamCount) ? streamCount : secondNum;
-            if (firstNum < 0 || secondNum < 0) {
+            if (firstNum < 0 || secondNum < 0 || firstNum > secondNum) {
                 throw new IllegalArgumentException("Invalid range number!");
             } else {
                 for (int i = firstNum; i <= secondNum; i++) {
@@ -146,7 +146,7 @@ public class GameList implements IGameList {
             // the index fo the last element is size - 1;
             int listCount = this.gameList.size() - 1;            
             secondNum = (secondNum > listCount) ? listCount : secondNum;                
-            if (firstNum < 0 || secondNum < 0) {
+            if (firstNum < 0 || secondNum < 0 || firstNum > secondNum) {
                 throw new IllegalArgumentException("Invalid range number!");
             } else {
                 // +1 cuz the second parameter of sublist is exclusive
