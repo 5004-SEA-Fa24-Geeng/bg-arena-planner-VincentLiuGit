@@ -1,17 +1,11 @@
 package student;
 
-import java.nio.file.OpenOption;
-
-import student.BoardGame;
-import student.GameData;
-import student.Operations;
-
-public class Filter {
+public final class Filter {
 
     /**
      * Private constructor to prevent instantiation.
      */
-    private Filter() {};
+    private Filter() { };
 
     /**
      * filter board games using game data, operations, and the value user send in.
@@ -22,12 +16,14 @@ public class Filter {
      * @param value the value used to compare with the value of a board game
      * @return boolean, true if the game fits the filter, else false
      */
-    public static boolean filter(BoardGame game, GameData column, Operations op, String value) {
+    public static boolean filter(BoardGame game, GameData column
+                                , Operations op, String value) {
 
         switch (column) {
             case NAME:
                 //filter NAME
-                String gameName = game.getName().toLowerCase().replaceAll(" ", "");;
+                String gameName = game.getName().toLowerCase()
+                                      .replaceAll(" ", "");;
                 value = value.toLowerCase().replaceAll(" ", "");;        
                 return filterString(gameName, op, value);
             case MAX_PLAYERS:
