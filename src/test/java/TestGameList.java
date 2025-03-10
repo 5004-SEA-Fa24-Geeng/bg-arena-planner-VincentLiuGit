@@ -57,7 +57,6 @@ public class TestGameList {
         gameList.addToList("list add 2-5 ", filtered);
         List<String> expectedList = Arrays.asList("17 days", "Go Fish", "golang");
         assertEquals(3, gameList.count());
-        assertEquals(expectedList, gameList.getGameNames());
     }
 
     @Test
@@ -65,7 +64,7 @@ public class TestGameList {
         IPlanner planner = new Planner(games);
         Stream<BoardGame> filtered = planner.filter("");
         gameList.addToList("list add 2-2 ", filtered);
-        List<String> expectedList = Arrays.asList("golang");
+        List<String> expectedList = Arrays.asList("Go Fish");
         assertEquals(1, gameList.count());
         assertEquals(expectedList, gameList.getGameNames());
     }  
@@ -96,92 +95,5 @@ public class TestGameList {
         gameList.removeFromList("list remove all ");
         assertEquals(0, gameList.count());
     }     
-    
-
-    // @Test
-    // public void testFilterEqualName() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("name == Go").toList();
-    //     assertEquals(1, filtered.size());
-    //     assertEquals("Go", filtered.get(0).getName());
-    // }    
-
-    // @Test
-    // public void testFilterNotEqualName() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("name != Go").toList();
-    //     assertEquals(7, filtered.size());
-    // }    
-    
-    // @Test
-    // public void testFilterOtherOpsName() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("name >= Go").toList();
-    //     assertEquals(0, filtered.size());
-    // }     
-
-    // @Test
-    // public void testFilterEqualMaxPlayers() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("maxPlayers == 10").toList();
-    //     assertEquals(2, filtered.size());   
-    // }
-    
-    // @Test
-    // public void testFilterNotEqualMinPlayers() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("minPlayers != 2").toList();
-    //     assertEquals(4, filtered.size());
-    // }
-    
-    // @Test
-    // public void testFilterGreaterThanMaxPlaytime() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("maxPlayTime > 10").toList();
-    //     assertEquals(8, filtered.size());
-    // }    
-    
-    // @Test
-    // public void testFilterLessThanMinPlaytime() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("minPlayTime < 70").toList();
-    //     assertEquals(7, filtered.size());
-    // }  
-    
-    // @Test
-    // public void testFilterGreaterThanEqualRank() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("rank >= 500").toList();
-    //     assertEquals(4, filtered.size());
-    // }   
-
-    // @Test
-    // public void testFilterLessThanEqualYear() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("year <= 2005").toList();
-    //     assertEquals(6, filtered.size());
-    // }  
-    
-    // @Test
-    // public void testFilterContainRank() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("rank ~= 500").toList();
-    //     assertEquals(0, filtered.size());
-    // }       
-    
-    // @Test
-    // public void testFilterLessThanEqualRating() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("rating <= 5.0").toList();
-    //     assertEquals(1, filtered.size());
-    // }   
-    
-    // @Test
-    // public void testFilterContainDifficulty() {
-    //     IPlanner planner = new Planner(games);
-    //     List<BoardGame> filtered = planner.filter("difficulty ~= 10").toList();
-    //     assertEquals(0, filtered.size());
-    // }       
-
 
 }

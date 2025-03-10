@@ -9,17 +9,27 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import student.Sorts.SortByName;
 
 public class GameList implements IGameList {
 
+    /**
+     * Default key word to use to add or remove an entire filter from/to the list.
+     */
     private String ADD_ALL = "all";
-    private List<BoardGame> gameList;
-    
+    /**
+     * a set to store board games.
+     */
+    private Set<BoardGame> gameList;
+
+    /**
+     * Create a GameList object.
+     */
     public GameList() {
-        this.gameList = new ArrayList<BoardGame>();
+        this.gameList = new HashSet<BoardGame>();
     }
 
     @Override
@@ -40,7 +50,7 @@ public class GameList implements IGameList {
 
     @Override
     public void clear() {
-        this.gameList = new ArrayList<BoardGame>();
+        this.gameList = new HashSet<BoardGame>();
     }
 
     @Override
@@ -61,7 +71,7 @@ public class GameList implements IGameList {
     @Override
     public void addToList(String str, Stream<BoardGame> filtered) throws IllegalArgumentException {
 
-        List<BoardGame> newList = new ArrayList<BoardGame>();
+        Set<BoardGame> newList = new HashSet<>();        
         List<BoardGame> filteredList = filtered.toList();
         // get the second part after the str is splited using " add "
         // and right trim space
@@ -89,7 +99,7 @@ public class GameList implements IGameList {
         } 
         // add all 
         else if (str.contains(ADD_ALL)) {
-            newList = filteredList;
+            newList = filteredList.stream().collect(Collectors.toSet());
         }
         // add single name or single number 
         else {
@@ -101,11 +111,11 @@ public class GameList implements IGameList {
             // single name
             else {
                 String name = str;
-                newList = filtered.filter(game -> game.getName().contains(name)).toList();
+                newList = filtered.filter(game -> game.getName().contains(name)).collect(Collectors.toSet());
             }
         }
         // add to list
-        List<BoardGame> newGameList = new ArrayList<>();
+        Set<BoardGame> newGameList = new HashSet<>();
         newGameList.addAll(this.gameList);
         newGameList.addAll(newList);        
         this.gameList = newGameList;
@@ -118,7 +128,8 @@ public class GameList implements IGameList {
         if (this.gameList.isEmpty()) {
             return ;
         }
-
+        // cast gameList to list
+        List<BoardGame> newGameList = new ArrayList<>(this.gameList);
         // get the second part after the str is splited using " add "
         // and right trim space
         // "list remove 7 wonders " -> "list", "7 wonders " -> "7 wonders"
@@ -139,7 +150,11 @@ public class GameList implements IGameList {
                 throw new IllegalArgumentException("Invalid range number!");
             } else {
                 // +1 cuz the second parameter of sublist is exclusive
-                this.gameList.subList(firstNum, secondNum + 1).clear();
+                newGameList.subList(firstNum, secondNum + 1).clear();
+                // cast newGameList to set and be sorted in ascending alphabetical order
+                this.gameList = newGameList.stream()
+                                .sorted((o1,o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
+                                .collect(Collectors.toSet());
             }
         } 
         // remove all 
@@ -151,7 +166,10 @@ public class GameList implements IGameList {
             // single number 
             if (str.matches("[0-9]+")) {
                 int index = Integer.parseInt(str);
-                this.gameList.remove(index);
+                newGameList.remove(index);
+                this.gameList = newGameList.stream()
+                                .sorted((o1,o2) -> o1.getName().compareToIgnoreCase(o2.getName()))
+                                .collect(Collectors.toSet());
             } 
             // single name
             else {
@@ -160,7 +178,7 @@ public class GameList implements IGameList {
             }
         }        
     }
-
+    
     public static void main(String[] args) { // used for local quick tests
         Set<BoardGame> games = new HashSet<>();
         IGameList gameList = new GameList();
@@ -177,5 +195,5 @@ public class GameList implements IGameList {
         for (String game : gameList.getGameNames()) {
             System.out.println(game);
         }
-    }    
+    }   
 }

@@ -3,8 +3,18 @@ package student;
 import java.util.Comparator;
 
 public class Sorts {
+
+    /**
+     * Private constructor to prevent instantiation.
+     */    
     private Sorts() {};
 
+    /**
+     * 
+     * @param sortOn
+     * @param asc
+     * @return
+     */
     public static Comparator<BoardGame> getSortType(String sortOn, boolean asc) {
         switch (sortOn) {
             case "objectname":
@@ -31,6 +41,9 @@ public class Sorts {
 
     }
 
+    /**
+     * 
+     */
     public static class SortByName implements Comparator<BoardGame> {
         @Override
         public int compare(BoardGame o1, BoardGame o2) {

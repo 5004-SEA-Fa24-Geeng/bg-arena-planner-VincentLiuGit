@@ -9,10 +9,23 @@ import java.util.stream.Stream;
 
 public class Planner implements IPlanner {
     
+    /**
+     * The file name that we used for reset().
+     */
     private static final String DEFAULT_COLLECTION = "/collection.csv";
+    /**
+     * If no sort is given, use objectname as a default.
+     */
     private static final String DEFAULT_SORT_ON_NAME = "objectname";
+    /**
+     * A set of BoardGame.
+     */
     Set<BoardGame> games;
 
+    /**
+     * Create a Planner object.
+     * @param games a set of games that user send in
+     */
     public Planner(Set<BoardGame> games) {
         this.games = games;
     }
@@ -48,6 +61,11 @@ public class Planner implements IPlanner {
         this.games = GamesLoader.loadGamesFile(DEFAULT_COLLECTION);
     }
 
+    /**
+     * true if the string only contains one filter, else false.
+     * @param filter
+     * @return bolean
+     */
     private boolean checkFilterNum(String filter) {
         // only one filter
         // "name == Go"        
@@ -60,6 +78,12 @@ public class Planner implements IPlanner {
         }
     }
 
+    /**
+     * processes string with one filter.
+     * @param filter string contains one filter
+     * @param filteredGames a stream of games that user send in
+     * @return
+     */
     private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filteredGames) {
         Operations operator = Operations.getOperatorFromStr(filter);
         if (operator == null) {
@@ -92,6 +116,12 @@ public class Planner implements IPlanner {
 
     }
 
+    /**
+     * processes string with 2+ filter.
+     * @param filter string contains 2+ filter
+     * @param filteredGames a stream of games that user send in
+     * @return
+     */
     private Stream<BoardGame> filterMulti(String filter, Stream<BoardGame> filteredGames) {
         // remove spaces
         filter = filter.replaceAll(" ", ""); 
@@ -121,23 +151,5 @@ public class Planner implements IPlanner {
         }
         return filteredGames;
     }    
-
-    public static void main(String[] args) { // used for local quick tests
-        Set<BoardGame> games = new HashSet<>();
-        games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
-        games.add(new BoardGame("Chess", 7, 2, 2, 10, 20, 10.0, 700, 10.0, 2006));
-        games.add(new BoardGame("Go", 1, 2, 5, 30, 30, 8.0, 100, 7.5, 2000));
-        games.add(new BoardGame("Go Fish", 2, 2, 10, 20, 120, 3.0, 200, 6.5, 2001));
-        games.add(new BoardGame("golang", 4, 2, 7, 50, 55, 7.0, 400, 9.5, 2003));
-        games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
-        games.add(new BoardGame("Monopoly", 8, 6, 10, 20, 1000, 1.0, 800, 5.0, 2007));
-        games.add(new BoardGame("Tucano", 5, 10, 20, 60, 90, 6.0, 500, 8.0, 2004));
-
-        IPlanner planner = new Planner(games);
-        Stream<BoardGame> filtered = planner.filter("name ~= o, minPlayers >= 1");
-        List<String> filteredListName = filtered.map(game -> game.getName()).toList();
-
-    }    
-
 
 }

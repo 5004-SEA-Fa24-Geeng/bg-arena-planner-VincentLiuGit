@@ -7,8 +7,21 @@ import student.GameData;
 import student.Operations;
 
 public class Filter {
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private Filter() {};
 
+    /**
+     * filter board games using game data, operations, and the value user send in.
+     * use in the filter() of Stream.
+     * @param game board game
+     * @param column game data name, ex: name, max players etc
+     * @param op operations, ex: equals, greater then etc
+     * @param value the value used to compare with the value of a board game
+     * @return boolean, true if the game fits the filter, else false
+     */
     public static boolean filter(BoardGame game, GameData column, Operations op, String value) {
 
         switch (column) {
@@ -47,6 +60,13 @@ public class Filter {
         }
     }
 
+    /**
+     * Compares strings.
+     * @param gameData the name of the board game 
+     * @param op operations, ex: equals, greater then etc
+     * @param value the value used to compare with the value of a board game
+     * @return boolean, true if the game fits the filter, else false
+     */
     public static boolean filterString(String gameData, Operations op, String value) {
 
         switch (op) {
@@ -69,6 +89,13 @@ public class Filter {
         }
     }
 
+    /**
+     * Compares integers.
+     * @param gameData fields except name, difficulty and averageRating 
+     * @param op operations, ex: equals, greater then etc
+     * @param value the value used to compare with the value of a board game
+     * @return boolean, true if the game fits the filter, else false
+     */
     public static boolean filterNum(int gameData, Operations op, String value) {
         int valueInt = Integer.parseInt(value);
 
@@ -92,6 +119,13 @@ public class Filter {
         }
     }    
 
+    /**
+     * Compares double.
+     * @param gameData fields like difficulty and averageRating 
+     * @param op operations, ex: equals, greater then etc
+     * @param value the value used to compare with the value of a board game
+     * @return boolean, true if the game fits the filter, else false
+     */
     public static boolean filterDouble(double gameData, Operations op, String value) {
         double valueDouble = Double.parseDouble(value);
 
