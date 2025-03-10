@@ -70,7 +70,11 @@ public class GameList implements IGameList {
 
     @Override
     public void addToList(String str, Stream<BoardGame> filtered) throws IllegalArgumentException {
-        System.out.println(str);
+        
+        if (!str.contains("list add")) {
+            throw new IllegalArgumentException("Invalid string!");
+        }
+
         Set<BoardGame> newList = new HashSet<>();        
         List<BoardGame> filteredList = filtered.toList();
         // get the second part after the str is splited using " add "
