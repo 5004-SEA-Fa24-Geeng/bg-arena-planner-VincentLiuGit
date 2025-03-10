@@ -77,13 +77,13 @@ public class Filter {
             case NOT_EQUALS:
                 return !(gameData.equals(value));
             case GREATER_THAN:
-                return false;
+                return gameData.compareTo(value) > 0;
             case LESS_THAN:
-                return false;
+                return gameData.compareTo(value) < 0;
             case GREATER_THAN_EQUALS:
-                return false;
+                return gameData.compareTo(value) >= 0;
             case LESS_THAN_EQUALS:
-                return false;
+            return gameData.compareTo(value) <= 0;
             case CONTAINS:
                 return gameData.contains(value);                                                                                                
             default:
