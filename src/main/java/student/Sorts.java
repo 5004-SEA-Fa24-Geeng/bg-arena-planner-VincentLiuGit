@@ -2,15 +2,15 @@ package student;
 
 import java.util.Comparator;
 
-public class Sorts {
 
+public final class Sorts {
     /**
      * Private constructor to prevent instantiation.
      */    
-    private Sorts() {};
+    private Sorts() { };
 
     /**
-     * Use sortOn to decide which sort class to use, and asc to decide which order
+     * Use sortOn to decide which sort class to use, and asc to decide which order.
      * @param sortOn collection.csv column name
      * @param asc true = asc, false = desc
      * @return Comparator<BoardGame>
@@ -34,7 +34,7 @@ public class Sorts {
             case "avgweight":
                 return asc ? new SortByDifficulty() : new SortByDifficultyDesc();
             case "yearpublished":
-                return asc ? new SortByYear() : new SortByYearDesc();                                                                
+                return asc ? new SortByYear() : new SortByYearDesc();
             default:
                 return ((o1, o2) -> 0);
         }        
@@ -42,7 +42,7 @@ public class Sorts {
     }
 
     /**
-     * SortByName asc
+     * SortByName asc.
      */
     public static class SortByName implements Comparator<BoardGame> {
         @Override
@@ -51,7 +51,7 @@ public class Sorts {
         }
     }
     /**
-     * SortByName desc
+     * SortByName desc.
      */
     public static class SortByNameDesc implements Comparator<BoardGame> {
         @Override
@@ -60,7 +60,7 @@ public class Sorts {
         }
     }    
     /**
-     * SortByMaxPlayers asc
+     * SortByMaxPlayers asc.
      */
     public static class SortByMaxPlayers implements Comparator<BoardGame> {
         @Override
@@ -69,7 +69,7 @@ public class Sorts {
         }
     }
     /**
-     * SortByMaxPlayers desc
+     * SortByMaxPlayers desc.
      */
     public static class SortByMaxPlayersDesc implements Comparator<BoardGame> {
         @Override
@@ -78,7 +78,7 @@ public class Sorts {
         }
     }    
     /**
-     * SortByMinPlayers asc
+     * SortByMinPlayers asc.
      */
     public static class SortByMinPlayers implements Comparator<BoardGame> {
         @Override
@@ -87,7 +87,7 @@ public class Sorts {
         }
     }   
     /**
-     * SortByMinPlayers desc
+     * SortByMinPlayers desc.
      */
     public static class SortByMinPlayersDesc implements Comparator<BoardGame> {
         @Override
@@ -96,7 +96,7 @@ public class Sorts {
         }
     }      
     /**
-     * SortByMaxPlaytime asc
+     * SortByMaxPlaytime asc.
      */    
     public static class SortByMaxPlaytime implements Comparator<BoardGame> {
         @Override
@@ -105,7 +105,7 @@ public class Sorts {
         }
     }
     /**
-     * SortByMaxPlaytime desc
+     * SortByMaxPlaytime desc.
      */  
     public static class SortByMaxPlaytimeDesc implements Comparator<BoardGame> {
         @Override
@@ -114,7 +114,7 @@ public class Sorts {
         }
     }    
     /**
-     * SortByMinPlaytimeDesc asc
+     * SortByMinPlaytimeDesc asc.
      */  
     public static class SortByMinPlaytime implements Comparator<BoardGame> {
         @Override
@@ -123,7 +123,7 @@ public class Sorts {
         }
     }  
     /**
-     * SortByMinPlaytimeDesc desc
+     * SortByMinPlaytimeDesc desc.
      */  
     public static class SortByMinPlaytimeDesc implements Comparator<BoardGame> {
         @Override
@@ -132,7 +132,7 @@ public class Sorts {
         }
     }      
     /**
-     * SortByRankDesc asc
+     * SortByRankDesc asc.
      */  
     public static class SortByRank implements Comparator<BoardGame> {
         @Override
@@ -141,7 +141,7 @@ public class Sorts {
         }
     }
     /**
-     * SortByRankDesc desc
+     * SortByRankDesc desc.
      */  
     public static class SortByRankDesc implements Comparator<BoardGame> {
         @Override
@@ -150,7 +150,7 @@ public class Sorts {
         }
     }    
     /**
-     * SortByRating asc
+     * SortByRating asc.
      */  
     public static class SortByRating implements Comparator<BoardGame> {
         @Override
@@ -159,7 +159,7 @@ public class Sorts {
         }
     }  
     /**
-     * SortByRating desc
+     * SortByRating desc.
      */  
     public static class SortByRatingDesc implements Comparator<BoardGame> {
         @Override
@@ -168,7 +168,7 @@ public class Sorts {
         }
     }     
     /**
-     * SortByDifficulty asc
+     * SortByDifficulty asc.
      */      
     public static class SortByDifficulty implements Comparator<BoardGame> {
         @Override
@@ -177,7 +177,7 @@ public class Sorts {
         }
     }
     /**
-     * SortByDifficulty desc
+     * SortByDifficulty desc.
      */   
     public static class SortByDifficultyDesc implements Comparator<BoardGame> {
         @Override
@@ -186,7 +186,7 @@ public class Sorts {
         }
     }    
     /**
-     * SortByYear asc
+     * SortByYear asc.
      */  
     public static class SortByYear implements Comparator<BoardGame> {
         @Override
@@ -195,7 +195,7 @@ public class Sorts {
         }
     }      
     /**
-     * SortByYearDesc desc
+     * SortByYearDesc desc.
      */  
     public static class SortByYearDesc implements Comparator<BoardGame> {
         @Override
