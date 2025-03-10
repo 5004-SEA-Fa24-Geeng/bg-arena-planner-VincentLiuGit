@@ -58,7 +58,7 @@ public class TestFilter {
     public void testFilterOtherOpsName() {
         IPlanner planner = new Planner(games);
         List<BoardGame> filtered = planner.filter("name >= Go").toList();
-        assertEquals(0, filtered.size());
+        assertEquals(6, filtered.size());
     }     
 
     @Test

@@ -22,9 +22,8 @@ public final class Filter {
         switch (column) {
             case NAME:
                 //filter NAME
-                String gameName = game.getName().toLowerCase()
-                                      .replaceAll(" ", "");;
-                value = value.toLowerCase().replaceAll(" ", "");;        
+                String gameName = game.getName().toLowerCase().replaceAll(" ", "");
+                value = value.toLowerCase().replaceAll(" ", "");    
                 return filterString(gameName, op, value);
             case MAX_PLAYERS:
                 //filter MAX_PLAYERS
@@ -81,7 +80,7 @@ public final class Filter {
             case LESS_THAN_EQUALS:
             return gameData.compareTo(value) <= 0;
             case CONTAINS:
-                return gameData.contains(value);                                                                                                
+                return gameData.contains(value);
             default:
                 return false;
         }
@@ -111,7 +110,7 @@ public final class Filter {
             case LESS_THAN_EQUALS:
                 return (gameData <= valueInt);
             case CONTAINS:
-                return false;                                                                                              
+                return false;
             default:
                 return false;
         }
@@ -141,7 +140,7 @@ public final class Filter {
             case LESS_THAN_EQUALS:
                 return (gameData <= valueDouble);
             case CONTAINS:
-                return false;                                                                                              
+                return false;
             default:
                 return false;
         }
