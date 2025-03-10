@@ -203,6 +203,4 @@ public final class Sorts {
             return o2.getYearPublished() - o1.getYearPublished();
         }
     }        
-
-    
 }
