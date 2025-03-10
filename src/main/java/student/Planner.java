@@ -1,7 +1,5 @@
 package student;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -15,11 +13,11 @@ public class Planner implements IPlanner {
     /**
      * A set of BoardGame that user sent in.
      */
-    Set<BoardGame> games;
+    private Set<BoardGame> games;
     /**
      * A copy set of BoardGame that user sent in.
      */
-    Set<BoardGame> copiedGames;
+    private Set<BoardGame> copiedGames;
 
     /**
      * Create a Planner object.
@@ -71,11 +69,11 @@ public class Planner implements IPlanner {
         // "name == Go"        
         if (filter.split(",").length == 1) {
             return true;
+        }
         // 2+ filters
         // "name ~= Go, minPlayers >= 2, maxPlayers == 5"
-        } else {
-            return false;            
-        }
+        return false;           
+
     }
 
     /**
@@ -120,7 +118,7 @@ public class Planner implements IPlanner {
      * processes string with 2+ filter.
      * @param filter string contains 2+ filter
      * @param filteredGames a stream of games that user send in
-     * @return
+     * @return Stream<BoardGame> a stream of games that is filtered
      */
     private Stream<BoardGame> filterMulti(String filter, Stream<BoardGame> filteredGames) {
         // remove spaces
@@ -151,19 +149,4 @@ public class Planner implements IPlanner {
         }
         return filteredGames;
     }    
-
-    public static void main(String[] args) { // used for local quick tests
-        Set<BoardGame> games = new HashSet<>();
-        games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
-        games.add(new BoardGame("Go Fish", 2, 2, 10, 20, 120, 3.0, 200, 6.5, 2001));
-        games.add(new BoardGame("golang", 4, 2, 7, 50, 55, 7.0, 400, 9.5, 2003));
-        games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
-
-        IPlanner planner = new Planner(games);
-        Stream<BoardGame> filtered = planner.filter("name ~= 17 days");
-        for (BoardGame game : filtered.toList()) {
-            System.out.println(game.getName());
-        }
-    }   
-
 }
