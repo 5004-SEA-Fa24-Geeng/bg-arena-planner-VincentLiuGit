@@ -365,8 +365,273 @@ For the final design, you just need to do a single diagram that includes both th
 > If you resubmit your assignment for manual grading, this is a section that often needs updating. You should double check with every resubmit to make sure it is up to date.
 
 
+```mermaid
+---
+title: bg arena planner UML
+---
+classDiagram
+    direction LR
+    BGArenaPlanner --> Planner : uses
+    BGArenaPlanner --> GameList : uses
+    BGArenaPlanner --> ConsoleApp : uses
+    ConsoleApp --> IGameList : has a
+    ConsoleApp --> IPlanner : has a
+    ConsoleApp --> ConsoleText : has a
+    IGameList <|-- GameList : implements
+    IPlanner <|-- Planner : implements
+    Planner --> BoardGame : uses
+    GameList --> BoardGame : uses
+    GameList --> GameData : uses  
+    Planner --> Filter : uses
+    Planner --> Sorting : uses    
+    Sorts --> GameData : uses  
+    Sorts --> BoardGame : uses      
+    Filter --> Operations : uses   
+    Filter --> BoardGame : uses   
+    Sorts --> SortByName : has a  
+    Sorts --> SortByNameDesc : has a    
+    Sorts --> SortByMaxPlayers : has a            
+    Sorts --> SortByMaxPlayersDesc : has a    
+    Sorts --> SortByMinPlayers : has a    
+    Sorts --> SortByMinPlayersDesc : has a    
+    Sorts --> SortByMaxPlaytime : has a                    
+    Sorts --> SortByMaxPlaytimeDesc : has a    
+    Sorts --> SortByMinPlaytime : has a    
+    Sorts --> SortByMinPlaytimeDesc : has a    
+    Sorts --> SortByRank : has a    
+    Sorts --> SortByRankDesc : has a    
+    Sorts --> SortByRating : has a    
+    Sorts --> SortByRatingDesc : has a                  
+    Sorts --> SortByDifficulty : has a    
+    Sorts --> SortByDifficultyDesc : has a    
+    Sorts --> SortByYear : has a    
+    Sorts --> SortByYearDesc : has a                                         
 
+    class BGArenaPlanner {
+        - BGArenaPlanner()
+        + main(String[] args) : void
+    }
+    class BoardGame {
+        - name : String
+        - id : int
+        - minPlayers : int
+        - maxPlayers : int
+        - maxPlayTime : int
+        - minPlayTime : int
+        - difficulty : double
+        - rank : int
+        - averageRating : double
+        - yearPublished : int
+        + BoardGame(String name, int id, int minPlayers, int maxPlayers, int minPlayTime, int maxPlayTime, double difficulty, int rank, double averageRating, int yearPublished)
+        + getName() : String
+        + getId() : String
+        + getMinPlayers() : int
+        + getMaxPlayers() : int
+        + getMaxPlayTime() : int
+        + getMinPlayTime() : int
+        + getDifficulty() : double
+        + getRank() : int
+        + getYearPublished() : int
+        + toStringWithInfo(GameData col) : String
+        + toString() : String 
+        + equals(Object obj) : boolean
+        + hashCode() : int
+        + main(String[] args) : void
+    }
+    class ConsoleApp {
+        - IN : Scanner
+        - DEFAULT_FILENAME : String
+        - RND : Random
+        - current : Scanner
+        - gameList : IGameList
+        - planner : IPlanner
+        + ConsoleApp(IGameList gameList, IPlanner planner)
+        + start() : void
+        + randomNumber() : String
+        + processHelp() : void
+        + processFilter() : void
+        + printFilterStream(Stream<BoardGame> games, GameData sortON) : void
+        + processListCommands() : void
+        + nextCommand() : ConsoleText
+        + remainder() : String
+        + getInput(String format, Object... args) : String
+        + printOutput(String format, Object... output) : void
+    }
+    class ConsoleText {
+        <<enum>>
+        WELCOME
+        HELP
+        INVALID
+        GOODBYE
+        PROMPT
+        NO_FILTER
+        NO_GAMES_LIST
+        FILTERED_CLEAR
+        LIST_HELP
+        FILTER_HELP
+        INVALID_LIST
+        EASTER_EGG
+        CMD_EASTER_EGG
+        CMD_EXIT
+        CMD_HELP
+        CMD_QUESTION
+        CMD_FILTER
+        CMD_LIST
+        CMD_SHOW
+        CMD_ADD
+        CMD_REMOVE
+        CMD_CLEAR
+        CMD_SAVE
+        CMD_OPTION_ALL
+        CMD_SORT_OPTION
+        CMD_SORT_OPTION_DIRECTION_ASC
+        CMD_SORT_OPTION_DIRECTION_DESC
+        - CTEXT : Properties
+        + toString() : String
+        + fromString(String str) : ConsoleText
+    }
+    class GameData {
+        <<enum>>
+        + NAME("objectname")
+        + ID("objectid")
+        + RATING("average")
+        + DIFFICULTY("avgweight")
+        + RANK("rank")
+        + MIN_PLAYERS("minplayers")
+        + MAX_PLAYERS("maxplayers")
+        + MIN_TIME("minplaytime")
+        + MAX_TIME("maxplaytime")
+        + YEAR("yearpublished")
+        - columnName : String
+        + GameData(String columnName)
+        + getColumnName() : String
+        + fromColumnName(String columnName) : GameData
+        + fromString(String name) : GameData
+    }
+    class GameList {
+        + GameList()
+        + getGameNames() : List<String>
+        + clear() : void 
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class GamesLoader {
+        - DELIMITER : String
+        - GamesLoader()
+        + loadGamesFile(String filename) : Set<BoardGame>
+        - toBoardGame(String line, Map<GameData, Integer> columnMap) : BoardGame
+        - processHeader(String header) : Map<GameData, Integer>
+    }    
+    class IGameList {
+        <<interface>>
+        + ADD_ALL : String
+        + getGameNames() : List<String>
+        + clear() : void
+        + count() : int
+        + saveGame(String filename) : void
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + removeFromList(String str) : void
+    }
+    class IPlanner {
+        <<interface>>
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+    }    
+    class Operations {
+        <<enum>>
+        + EQUALS("==")
+        + NOT_EQUALS("!=")
+        + GREATER_THAN(">")
+        + LESS_THAN("<")
+        + GREATER_THAN_EQUALS(">=")
+        + LESS_THAN_EQUALS("<=")
+        + CONTAINS("~=")
+        + Operations(String operator)
+        + getOperator() : String
+        + fromOperator(String operator) : Operations
+        + getOperatorFromStr(String str) : Operations
+    }
+    class Planner {
+        + Planner(Set<BoardGame> games)
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame> 
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + reset() : void
+        - checkFilterNum(String filter) : boolean
+        - filterSingle(String filter, Stream<BoardGame> filteredGames) : Stream<BoardGame>
+        - filterMulti(String filter, Stream<BoardGame> filteredGames) : Stream<BoardGame>
+    }   
+    class Filter {
+        - Filter()
+        + filter(BoardGame game, GameData column, Operations op, String value) : boolean 
+        + filterString(String gameData, Operations op, String value) : boolean 
+        + filterNum(int gameData, Operations op, String value) : boolean
+        + filterDouble(double gameData, Operations op, String value) : boolean
+    }        
+    class Sorts {
+        - Sorts()
+        + getSortType(String sortOn, boolean asc) : Comparator<BoardGame>         
+    } 
+    class SortByName {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }     
+    class SortByNameDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    } 
+    class SortByMaxPlayers {
+        + compare(BoardGame o1, BoardGame o2) : int
+    } 
+    class SortByMaxPlayersDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    } 
+    class SortByMinPlayers {
+        + compare(BoardGame o1, BoardGame o2) : int
+    } 
+    class SortByMinPlayersDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    } 
+    class SortByMaxPlaytime {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }         
+    class SortByMaxPlaytimeDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }  
+    class SortByMinPlaytime {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }                          
+    class SortByMinPlaytimeDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }  
+    class SortByRank {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }  
+    class SortByRankDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }    
+    class SortByRating {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }   
+    class SortByRatingDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }   
+    class SortByDifficulty {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }   
+    class SortByDifficultyDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }                             
+    class SortByYear {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }   
+    class SortByYearDesc {
+        + compare(BoardGame o1, BoardGame o2) : int
+    }           
 
+```
 
 ## (FINAL DESIGN): Reflection/Retrospective
 
