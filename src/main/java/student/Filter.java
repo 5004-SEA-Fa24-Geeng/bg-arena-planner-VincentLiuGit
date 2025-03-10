@@ -27,7 +27,9 @@ public class Filter {
         switch (column) {
             case NAME:
                 //filter NAME
-                return filterString(game.getName(), op, value);
+                String gameName = game.getName().toLowerCase().replaceAll(" ", "");;
+                value = value.toLowerCase().replaceAll(" ", "");;        
+                return filterString(gameName, op, value);
             case MAX_PLAYERS:
                 //filter MAX_PLAYERS
                 return filterNum(game.getMaxPlayers(), op, value);      
@@ -68,9 +70,6 @@ public class Filter {
      * @return boolean, true if the game fits the filter, else false
      */
     public static boolean filterString(String gameData, Operations op, String value) {
-
-        gameData = gameData.toLowerCase();
-        value = value.toLowerCase();        
 
         switch (op) {
             case EQUALS:

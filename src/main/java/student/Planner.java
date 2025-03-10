@@ -159,7 +159,7 @@ public class Planner implements IPlanner {
         games.add(new BoardGame("GoRami", 3, 6, 6, 40, 42, 5.0, 300, 8.5, 2002));
 
         IPlanner planner = new Planner(games);
-        Stream<BoardGame> filtered = planner.filter("name ~= Go");
+        Stream<BoardGame> filtered = planner.filter("name ~= 17 days");
         for (BoardGame game : filtered.toList()) {
             System.out.println(game.getName());
         }

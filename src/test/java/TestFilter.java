@@ -35,7 +35,7 @@ public class TestFilter {
     @Test
     public void testFilterContainsName() {
         IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("name ~= 17").toList();
+        List<BoardGame> filtered = planner.filter("name ~= 17 days").toList();
         assertEquals(1, filtered.size());
         assertEquals("17 days", filtered.get(0).getName());
     }
