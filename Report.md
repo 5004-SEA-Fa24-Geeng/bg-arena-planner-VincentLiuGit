@@ -8,17 +8,51 @@ code as it is meant to help you understand some of the concepts.
 1. What is the difference between == and .equals in java? Provide a code example of each, where they would return different results for an object. Include the code snippet using the hash marks (```) to create a code block.
    ```java
    // your code here
-   
+    class Dog {
+        private String name;
+        private int weight;
+        private int height;
+        
+        public Dog(String name, int weight, int height) {
+            this.name = name;
+            this.weight = weight;
+            this.height = height;
+        }
+        public String getName() {
+            return this.name;
+        }
+        public int getWeight() {
+            return this.weight;
+        }
+        public int getHeight() {
+            return this.height;
+        }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof Dog)) {
+                return false;
+            }
+            Dog newObject = (Dog)o;
+            return this.getName() == newObject.getName() && this.getWeight() == newObject.getWeight() && this.getHeight() == newObject.getHeight();
+        }
+
+        public static void main(String[] args) {
+            Dog dog1 = new Dog("Bob", 20, 50);
+            Dog dog2 = new Dog("Bob", 20, 50);
+            System.out.println(dog1 == dog2); //false
+            System.out.println(dog1.equals(dog2)); //true       
+        }
+    }   
    ```
-
-
+   '==' compares memory address between two objects, while equals() compares the content of the objects.
 
 
 2. Logical sorting can be difficult when talking about case. For example, should "apple" come before "Banana" or after? How would you sort a list of strings in a case-insensitive manner? 
 
-
-
-
+    I'd cast all the stings in the list in to lower case, then sort the list.
 
 3. In our version of the solution, we had the following code (snippet)
     ```java
@@ -35,25 +69,20 @@ code as it is meant to help you understand some of the concepts.
     ```
     Why would the order in which we checked matter (if it does matter)? Provide examples either way proving your point. 
 
-
+    The order matters. If we check ">" first, the method would return Operations.GREATER_THAN when it got inputs like strings containing ">=".
 
 4. What is the difference between a List and a Set in Java? When would you use one over the other? 
 
-
-
+    A List is a indexed collection that allows duplicate elements, while a Set is a non-indexed collection that does not allow duplicate elements. If I want to use a collection that contains duplicate elements and can be accessed by their positions, I would use a List. On the contrary, I would use a Set.
 
 5. In [GamesLoader.java](src/main/java/student/GamesLoader.java), we use a Map to help figure out the columns. What is a map? Why would we use a Map here? 
 
-
-
+    The map contains key-value pairs, where we access elements in the map using key values, and the map does not allow duplicate keys. We use a Map to make sure that the column names are unique and we need the actual index of these columns.
 
 6. [GameData.java](src/main/java/student/GameData.java) is actually an `enum` with special properties we added to help with column name mappings. What is an `enum` in Java? Why would we use it for this application?
 
-
-
-
-
-
+    'enum' represents a group of named finite constants. It's used when we know all the possible values.
+    The reason why we use it in this application is that we know all the column names in the collection.csv and all the operations we'll encounter.
 
 7. Rewrite the following as an if else statement inside the empty code block.
     ```java
@@ -70,7 +99,11 @@ code as it is meant to help you understand some of the concepts.
 
     ```java
     // your code here, don't forget the class name that is dropped in the switch block..
-    
+    if (ct.equals(ConsoleText.CMD_QUESTION) || ct.equals(ConsoleText.CMD_HELP)) {
+        processHelp();
+    } else {
+        CONSOLE.printf("%s%n", ConsoleText.INVALID);
+    }
     ```
 
 ## Deeper Thinking
