@@ -121,6 +121,11 @@ Post a copy of the run with the updated languages below this. Use three back tic
 
 ```text
 // your consoles output here
+
+*******???????????.*******
+
+A tool to help people plan which games they
+want to play on Board Game Arena.
 ```
 
 Now, thinking about localization - we have the question of why does it matter? The obvious
@@ -131,3 +136,10 @@ various spoken languages around the world? What about areas with internet access
 
 
 As a reminder, deeper thinking questions are meant to require some research and to be answered in a paragraph for with references. The goal is to open up some of the discussion topics in CS, so you are better informed going into industry. 
+
+Localization matters a lot. When a brand is adapting to a local culture, it's easier to reach new customers and gain brand recogntion. Moreover, implementing loclaization helps the brand communicate more efficiently wtih it's target audience.[^1] However, there are some disadvantages doing so, such as high costs. Translating all of the content into a whole new language and even using local terms in the products might cost a lot and take time, since the brand needs to hire local residents who is familiar with both language to do the job and there might not be many of them, espescially the cheap ones. Once you finish the job, that's not all. You need to verify your localization again with other people who aren't involve in the translation job. You don't want to be like one of these bad examples.[^2] Based on these circumstances, I would say localization is a high risk high profit investment. As a developer, there are some methods to aovid problems when implementing localization, such as use separate resource files, give strings room to grow and shrink, always use UTF-8 etc.[^3]
+
+
+[^1]: https://greatcontent.com/globalization-vs-localization/
+[^2]: https://www.polilingua.com/blog/post/cultural-blunders-worst-cases-of-localization.htm
+[^3]: https://phrase.com/blog/posts/10-common-mistakes-in-software-localization/
